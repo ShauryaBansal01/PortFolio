@@ -65,11 +65,10 @@ export function CommandPalette({
                       item.run()
                       onClose()
                     }}
-                    className={`flex w-full items-start justify-between rounded-2xl px-3 py-3 text-left transition ${
-                      selectedIndex === index
+                    className={`flex w-full items-start justify-between rounded-2xl px-3 py-3 text-left transition ${selectedIndex === index
                         ? 'bg-[var(--accent-soft)] text-[var(--text-primary)]'
                         : 'text-[var(--text-secondary)] hover:bg-[var(--panel-soft)] hover:text-[var(--text-primary)]'
-                    }`}
+                      }`}
                   >
                     <div>
                       <p className="text-sm font-medium">{item.title}</p>

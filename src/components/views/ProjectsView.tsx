@@ -18,11 +18,10 @@ export function ProjectsView({ selectedProjectId, onSelectProject }: ProjectsVie
             key={project.id}
             type="button"
             onClick={() => onSelectProject(project.id)}
-            className={`rounded-xl border px-4 py-2 text-sm transition ${
-              project.id === selectedProject.id
+            className={`rounded-xl border px-4 py-2 text-sm transition ${project.id === selectedProject.id
                 ? 'border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--text-primary)]'
                 : 'border-[var(--panel-border)] bg-[var(--panel)] text-[var(--text-secondary)] hover:border-[var(--accent)]/60'
-            }`}
+              }`}
           >
             {project.file}
           </button>

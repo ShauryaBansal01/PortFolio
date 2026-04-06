@@ -25,11 +25,10 @@ export function EditorTabs({ openTabs, activeFile, onOpenFile }: EditorTabsProps
             key={tab.id}
             type="button"
             onClick={() => onOpenFile(tab.id)}
-            className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition ${
-              isActive
+            className={`inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-sm transition ${isActive
                 ? 'border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--text-primary)]'
                 : 'border-transparent bg-transparent text-[var(--text-secondary)] hover:border-[var(--panel-border)] hover:bg-[var(--panel-soft)]'
-            }`}
+              }`}
           >
             <TabIcon className="size-4" />
             <span>{tab.label}</span>

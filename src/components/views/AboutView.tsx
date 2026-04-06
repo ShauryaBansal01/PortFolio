@@ -68,7 +68,7 @@ export function AboutView({ onFocusTerminal }: AboutViewProps) {
             </div>
           </div>
 
-              <div className="grid gap-4 lg:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-2">
             <InfoPanel
               title="GitHub Presence"
               accent="text-[var(--accent)] font-medium"
@@ -111,7 +111,7 @@ export function AboutView({ onFocusTerminal }: AboutViewProps) {
           <p className="text-xs uppercase tracking-[0.24em] font-medium text-[var(--text-muted)]">Operating Principles</p>
           <div className="mt-4 rounded-2xl border border-[var(--panel-border)] bg-[var(--panel-soft)] shadow-inner p-4">
             <pre className="overflow-x-auto whitespace-pre-wrap text-sm leading-7 text-[var(--text-secondary)]">
-{`const identity = {
+              {`const identity = {
   style: 'developer first',
   product: 'clear and useful',
   code: 'modular and maintainable',

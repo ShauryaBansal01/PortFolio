@@ -31,11 +31,10 @@ export function ExplorerSidebar({ activeFile, theme, onOpenFile }: ExplorerSideb
                 key={file.id}
                 type="button"
                 onClick={() => onOpenFile(file.id)}
-                className={`min-w-[220px] rounded-2xl border px-3 py-3 text-left transition lg:min-w-0 ${
-                  isActive
+                className={`min-w-[220px] rounded-2xl border px-3 py-3 text-left transition lg:min-w-0 ${isActive
                     ? 'border-[var(--accent)] bg-[var(--accent-soft)]'
                     : 'border-[var(--panel-border)] bg-[var(--panel)] hover:border-[var(--accent)]/60 hover:bg-[var(--panel)]/90'
-                }`}
+                  }`}
               >
                 <div className="flex items-start gap-3">
                   <span className="mt-0.5 rounded-lg border border-[var(--panel-border)] bg-[var(--panel-elevated)] p-2 text-[var(--accent)]">

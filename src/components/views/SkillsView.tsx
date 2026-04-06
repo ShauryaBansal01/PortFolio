@@ -51,7 +51,7 @@ export function SkillsView() {
           <p className="text-xs uppercase tracking-[0.24em] text-[var(--text-muted)]">Dependencies</p>
           <div className="mt-4 rounded-2xl border border-[var(--panel-border)] bg-[var(--panel-soft)] p-4">
             <pre className="overflow-x-auto whitespace-pre-wrap text-sm leading-8 text-[var(--text-secondary)]">
-{dependencyGraph.join('\n')}
+              {dependencyGraph.join('\n')}
             </pre>
           </div>
         </div>

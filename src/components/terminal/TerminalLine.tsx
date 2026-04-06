@@ -13,13 +13,12 @@ export function TerminalLine({ kind, text, isTyping = false }: TerminalLineProps
   return (
     <div className="flex gap-3 text-sm leading-7">
       <span
-        className={`flex-none ${
-          kind === 'input'
+        className={`flex-none ${kind === 'input'
             ? 'text-[var(--accent-secondary)]'
             : kind === 'system'
               ? 'text-[var(--text-muted)]'
               : 'text-[var(--accent)]'
-        }`}
+          }`}
       >
         {prefix}
       </span>
