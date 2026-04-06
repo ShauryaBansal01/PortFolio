@@ -1,92 +1,81 @@
-import { Command, ChevronRight } from 'lucide-react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Search } from 'lucide-react'
 
-export type PaletteItem = {
-  id: string
-  title: string
-  subtitle: string
-  run: () => void
-}
+export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [q, setQ] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+  const sections = ['about', 'projects', 'experience', 'skills', 'contact']
 
-type CommandPaletteProps = {
-  isOpen: boolean
-  query: string
-  selectedIndex: number
-  items: PaletteItem[]
-  inputRef: React.RefObject<HTMLInputElement | null>
-  onClose: () => void
-  onQueryChange: (value: string) => void
-}
+  useEffect(() => {
+    if (isOpen) setTimeout(() => inputRef.current?.focus(), 50)
+  }, [isOpen])
 
-export function CommandPalette({
-  isOpen,
-  query,
-  selectedIndex,
-  items,
-  inputRef,
-  onClose,
-  onQueryChange,
-}: CommandPaletteProps) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [onClose])
+
+  const filtered = sections.filter((s) => s.includes(q.toLowerCase()))
+
   return (
     <AnimatePresence>
-      {isOpen ? (
+      {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 px-4 pt-[12vh] backdrop-blur-sm"
           onClick={onClose}
+          style={{ position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(5,5,10,0.75)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: '12vh' }}
         >
           <motion.div
-            initial={{ opacity: 0, y: 18, scale: 0.98 }}
+            initial={{ opacity: 0, y: 16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 12, scale: 0.98 }}
-            className="w-full max-w-2xl overflow-hidden rounded-[24px] border border-[var(--panel-border)] bg-[var(--panel)] shadow-[var(--panel-shadow)]"
-            onClick={(event) => event.stopPropagation()}
+            exit={{ opacity: 0, y: 8, scale: 0.97 }}
+            onClick={(e) => e.stopPropagation()}
+            style={{ width: '100%', maxWidth: 480, background: 'var(--surface)', border: '1px solid var(--border-hover)', borderRadius: 12, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.7)' }}
           >
-            <div className="flex items-center gap-3 border-b border-[var(--panel-border)] px-4 py-4 sm:px-5">
-              <Command className="size-4 text-[var(--accent)]" />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
+              <Search className="size-4" style={{ color: 'var(--cyan)' }} />
               <input
                 ref={inputRef}
-                value={query}
-                onChange={(event) => onQueryChange(event.target.value)}
-                placeholder="Search commands, files, or actions"
-                className="w-full bg-transparent text-sm text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)]"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Navigate to section..."
+                style={{ flex: 1, background: 'none', border: 'none', outline: 'none', color: 'var(--text)', fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}
               />
+              <kbd style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--text-muted)', border: '1px solid var(--border)', borderRadius: 4, padding: '2px 6px' }}>ESC</kbd>
             </div>
-
-            <div className="max-h-[420px] overflow-y-auto p-2">
-              {items.length > 0 ? (
-                items.map((item, index) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => {
-                      item.run()
-                      onClose()
-                    }}
-                    className={`flex w-full items-start justify-between rounded-2xl px-3 py-3 text-left transition ${selectedIndex === index
-                        ? 'bg-[var(--accent-soft)] text-[var(--text-primary)]'
-                        : 'text-[var(--text-secondary)] hover:bg-[var(--panel-soft)] hover:text-[var(--text-primary)]'
-                      }`}
-                  >
-                    <div>
-                      <p className="text-sm font-medium">{item.title}</p>
-                      <p className="mt-1 text-xs text-[var(--text-muted)]">{item.subtitle}</p>
-                    </div>
-                    <ChevronRight className="mt-1 size-4" />
-                  </button>
-                ))
-              ) : (
-                <div className="px-4 py-12 text-center text-sm text-[var(--text-secondary)]">
-                  No command matched that search. Try <span className="text-[var(--accent)]">projects</span> or{' '}
-                  <span className="text-[var(--accent)]">linkedin</span>.
-                </div>
-              )}
+            <div style={{ padding: 8 }}>
+              {filtered.map((s) => (
+                <a
+                  key={s}
+                  href={`#${s}`}
+                  onClick={onClose}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    padding: '10px 12px',
+                    borderRadius: 8,
+                    textDecoration: 'none',
+                    color: 'var(--text)',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.875rem',
+                    transition: 'background 0.15s',
+                  }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = 'var(--surface-hi)' }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent' }}
+                >
+                  <span style={{ color: 'var(--cyan)' }}>→</span>
+                  ./go-to-{s}
+                </a>
+              ))}
             </div>
           </motion.div>
         </motion.div>
-      ) : null}
+      )}
     </AnimatePresence>
   )
 }
