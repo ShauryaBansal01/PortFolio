@@ -13,7 +13,7 @@ import profilePhoto from '../assets/photo.jpeg'
 
 export const explorerFiles: ExplorerFile[] = [
   { id: 'about', label: 'about.md', note: 'intro, photo, github, linkedin' },
-  { id: 'projects', label: 'projects.json', note: 'LingoBridge, CareerLens, Mind Mirror' },
+  { id: 'projects', label: 'projects.json', note: 'Streamify, CareerLens, Mind Mirror' },
   { id: 'experience', label: 'experience.log', note: 'journey, milestones, growth' },
   { id: 'skills', label: 'skills.ts', note: 'strengths, stack, dependencies' },
   { id: 'contact', label: 'contact.js', note: 'email, github, linkedin, resume' },
@@ -61,27 +61,29 @@ export const stats: PortfolioStat[] = [
 
 export const projects: Project[] = [
   {
-    id: 'lingobridge',
-    name: 'LingoBridge',
-    file: 'apps/lingobridge.tsx',
+    id: 'streamify',
+    name: 'Streamify',
+    file: 'apps/streamify.tsx',
     status: 'Featured Project',
     summary:
-      'A language learning and communication platform focused on helping users practice, understand, and bridge everyday language barriers.',
+      'A real-time video chat and communication platform enabling seamless, low-latency peer-to-peer streaming experiences.',
     impact:
-      'Built as a product that combines approachable design with practical problem solving around communication.',
-    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Node.js'],
-    repoUrl: 'https://github.com/shaurya/lingobridge',
+      'Built a robust real-time communication stack capable of handling high-quality video streams.',
+    stack: ['MongoDB', 'Express.js', 'React', 'Node.js', 'Tailwind CSS', 'Stream API', 'TanStack Query', 'Daisy UI'],
+    repoUrl: 'https://github.com/ShauryaBansal01/Video-chat-realtime',
     highlights: [
-      'Designed a user-friendly interface for language-focused workflows.',
-      'Structured the app to keep learning flows simple and easy to navigate.',
-      'Used modular frontend patterns to keep the product scalable.',
+      'Integrated the Stream API for robust, low-latency video and audio transmission.',
+      'Implemented a MERN stack architecture with TanStack Query for efficient server state management.',
+      'Designed a highly responsive, accessible interface utilizing Tailwind CSS and Daisy UI.',
     ],
-    snippet: `export function LessonCard({ lesson }: { lesson: Lesson }) {
+    snippet: `export function VideoStream({ channel }: { channel: Channel }) {
   return (
     <article className="rounded-xl border border-slate-700 p-4">
-      <h3>{lesson.title}</h3>
-      <p>{lesson.languagePair}</p>
-      <button>Continue practice</button>
+      <h3>{channel.name}</h3>
+      <div className="video-player-frame">
+        <StreamPlayer stream={channel.activeStream} />
+      </div>
+      <button className="btn-join">Join Call</button>
     </article>
   )
 }`,
@@ -92,25 +94,25 @@ export const projects: Project[] = [
     file: 'apps/careerlens.tsx',
     status: 'Featured Project',
     summary:
-      'A career-focused platform that helps users understand opportunities, improve direction, and explore professional growth paths with more clarity.',
+      'An AI-powered platform to parse resumes and generate ATS-compliant LaTeX resumes tailored to specific job descriptions.',
     impact:
-      'Turns career discovery into a more guided and less overwhelming product experience.',
-    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Firebase'],
+      'Reduced resume customization time by 80%+ and significantly improved ATS match rates.',
+    stack: ['React', 'Node.js', 'Express', 'MongoDB', 'Gemini API', 'Tailwind CSS'],
     liveUrl: 'https://career-lens-vert.vercel.app/',
-    repoUrl: 'https://github.com/shaurya/careerlens',
+    repoUrl: 'https://github.com/ShauryaBansal01/CareerLens',
     highlights: [
-      'Organized complex information into a cleaner exploration flow.',
-      'Focused on clarity, usability, and guiding the user toward decisions.',
-      'Built components that support a polished recruiter-facing project presentation.',
+      'Implemented JD-based bullet rewriting using the STAR method and dynamic skill prioritization to improve role relevance.',
+      'Built robust features including resume versioning, fast user authentication, and a scalable responsive dark-mode UI.',
     ],
-    snippet: `export function CareerPathCard({ path }: { path: CareerPath }) {
-  return (
-    <section className="space-y-2">
-      <h3>{path.title}</h3>
-      <p>{path.summary}</p>
-      <span>{path.growthLevel}</span>
-    </section>
-  )
+    snippet: `// AI-Powered Resume Parsing Engine
+export async function generateAtsResume(resume: string, jd: string) {
+  const optimizedData = await geminiApi.analyze({
+    text: resume,
+    targetRole: jd,
+    framework: 'STAR-method',
+  })
+  
+  return renderLatexTemplate(optimizedData)
 }`,
   },
   {
@@ -119,22 +121,25 @@ export const projects: Project[] = [
     file: 'apps/mind-mirror.tsx',
     status: 'Featured Project',
     summary:
-      'A reflective self-awareness project centered on journaling, mood insights, and helping users better understand their thoughts and habits.',
+      'A modern mental wellness journaling application that empowers users to track their moods, analyze cognitive patterns, and gain actionable insights through AI-driven recommendations.',
     impact:
-      'Shows my interest in building calmer digital experiences with a personal and human-centered feel.',
-    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    repoUrl: 'https://github.com/shaurya/mind-mirror',
+      'Built a calm, analytics-driven space that visualizes mood distributions and cognitive trends to improve mental well-being.',
+    stack: ['React', 'Node.js', 'Recharts', 'Tailwind CSS', 'AI Integrations'],
+    repoUrl: 'https://github.com/ShauryaBansal01/Mind_Mirror',
     highlights: [
-      'Created an interface that feels personal without becoming visually noisy.',
-      'Balanced interaction and minimalism for a thoughtful product mood.',
-      'Used component-driven design to keep the experience cohesive.',
+      'Developed interactive analytics dashboards with Recharts for visualizing weekly progress and tracking mood history.',
+      'Implemented an AI insights engine to deliver personalized recommendations based on journaling data.',
+      'Secured user mental wellness data with a robust authentication system, presented in a clean, highly responsive UI.',
     ],
-    snippet: `export function ReflectionPanel({ entry }: { entry: JournalEntry }) {
+    snippet: `// AI Wellness Insights & Analytics
+export function AnalyticsDashboard({ entries }: { entries: JournalEntry[] }) {
   return (
     <div className="rounded-2xl border border-slate-700 p-5">
-      <p>{entry.mood}</p>
-      <h3>{entry.title}</h3>
-      <p>{entry.summary}</p>
+      <h3>Weekly Mood Trends</h3>
+      <div className="analytics-chart">
+        <RechartsLineChart data={formatMoodData(entries)} />
+      </div>
+      <AIRecommendations cognitiveData={entries} />
     </div>
   )
 }`,

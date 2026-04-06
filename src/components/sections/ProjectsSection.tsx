@@ -6,7 +6,7 @@ import { FadeUp, SectionLabel, Chip } from '../ui/Primitives'
 import { IdeWindow } from '../ui/IdeWindow'
 
 export function ProjectsSection() {
-  const [selected, setSelected] = useState('lingobridge')
+  const [selected, setSelected] = useState('streamify')
   const project = projects.find((p) => p.id === selected) ?? projects[0]
 
   return (

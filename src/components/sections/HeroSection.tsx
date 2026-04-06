@@ -8,8 +8,8 @@ export function HeroSection({ onScrollDown }: { onScrollDown: () => void }) {
   const [typed, setTyped] = useState(0)
   const lines = [
     { prompt: 'visitor@portfolio:~$', cmd: ' whoami', out: `→ ${profile.name} · ${profile.role} · ${profile.location}` },
-    { prompt: 'visitor@portfolio:~$', cmd: ' cat stack.json', out: '→ React · TypeScript · Node.js · Tailwind CSS' },
-    { prompt: 'visitor@portfolio:~$', cmd: ' git log --oneline', out: '→ LingoBridge · CareerLens · Mind Mirror' },
+    { prompt: 'visitor@portfolio:~$', cmd: ' cat stack.json', out: '→ React · JavaScript · Node.js · Tailwind CSS' },
+    { prompt: 'visitor@portfolio:~$', cmd: ' git log --oneline', out: '→ Streamify · CareerLens · Mind Mirror' },
   ]
 
   useEffect(() => {
