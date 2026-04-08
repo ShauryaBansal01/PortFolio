@@ -191,15 +191,15 @@ export function HeroSection({ onScrollDown }: { onScrollDown: () => void }) {
         }
         @media (max-width: 860px) {
           #hero {
-            padding: 80px 24px 40px !important;
+            padding: 100px 24px 40px !important;
           }
           .hero-grid {
             grid-template-columns: 1fr !important;
-            gap: 32px !important;
+            gap: 0 !important;
             text-align: left;
           }
           .hero-right-col {
-            padding-left: 0 !important;
+            display: none !important;
           }
         }
       `}</style>
