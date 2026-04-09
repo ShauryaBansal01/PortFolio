@@ -4,7 +4,7 @@ import { ChevronDown } from 'lucide-react'
 import { contactLinks, profile } from '../../data/portfolio'
 import { MacDots } from '../ui/Primitives'
 import { CoderScene3D } from '../ui/CoderScene3D'
-import { TicTacToe } from '../ui/TicTacToe'
+import { FlappyBird } from '../ui/FlappyBird'
 
 type TerminalLine = {
   prompt: string;
@@ -39,7 +39,7 @@ export function HeroSection({ onScrollDown }: { onScrollDown: () => void }) {
       const lowerCmd = cmd.toLowerCase()
       
       if (lowerCmd === 'help') {
-        out = '→ Available commands: whoami, cat stack.json, git log --oneline, clear, clr, ls, date, sudo, play tictactoe'
+        out = '→ Available commands: whoami, cat stack.json, git log --oneline, clear, clr, ls, date, sudo, play flappybird'
       } else if (lowerCmd === 'clear') {
         setHistory([])
         setInputVal('')
@@ -60,8 +60,8 @@ export function HeroSection({ onScrollDown }: { onScrollDown: () => void }) {
         out = `→ ${new Date().toString()}`
       } else if (lowerCmd.startsWith('sudo ')) {
         out = <span style={{ color: 'var(--red)' }}>→ visitor is not in the sudoers file. This incident will be reported.</span>
-      } else if (lowerCmd === 'play tictactoe') {
-        out = <TicTacToe />
+      } else if (lowerCmd === 'play flappybird') {
+        out = <FlappyBird />
       } else if (cmd === '') {
         out = ''
       } else {
