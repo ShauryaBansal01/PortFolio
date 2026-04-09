@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { skillDomains, dependencyGraph } from '../../data/portfolio'
-import { FadeUp, SectionLabel, Chip, useInView } from '../ui/Primitives'
+import { FadeUp, SectionLabel, useInView } from '../ui/Primitives'
 import { IdeWindow } from '../ui/IdeWindow'
 
 export function SkillsSection() {
@@ -8,35 +8,54 @@ export function SkillsSection() {
   const visible = useInView(ref, 0.1)
 
   return (
-    <section id="skills" className="px-6 py-24" style={{ background: 'var(--surface-lo)' }}>
-      <div className="max-w-6xl mx-auto">
+    <section id="skills" className="px-6 py-32" style={{ background: 'var(--bg)', position: 'relative', overflow: 'hidden' }}>
+      {/* Background Grid */}
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        backgroundImage: `linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)`,
+        backgroundSize: '48px 48px',
+        opacity: 0.15,
+      }} />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <FadeUp>
           <SectionLabel index="04" name="skills" />
         </FadeUp>
 
-        <div ref={ref} className="grid lg:grid-cols-[1fr_0.9fr] gap-6">
+        <div ref={ref} className="grid lg:grid-cols-[1fr_0.9fr] gap-8 mt-12">
+          {/* Left Column: Capability Graph */}
           <FadeUp delay={0.05}>
-            <IdeWindow filename="capability-graph.ts">
-              <div className="space-y-6">
+            <IdeWindow filename="sys.capability_graph">
+              <div className="space-y-8 p-1">
                 {skillDomains.map((d, i) => (
                   <div key={d.id}>
-                    <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center justify-between mb-3">
                       <div>
-                        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--text)', fontWeight: 600 }}>{d.name}</p>
-                        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 2 }}>{d.summary}</p>
+                        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: 'var(--text)', fontWeight: 600, letterSpacing: '0.05em' }}>{d.name}</p>
+                        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.70rem', color: 'var(--text-muted)', marginTop: 4 }}>► {d.summary}</p>
                       </div>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.875rem', color: 'var(--cyan)', fontWeight: 700, minWidth: 38, textAlign: 'right' }}>
-                        {d.level}%
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--cyan)', fontWeight: 700, textShadow: '0 0 10px rgba(0, 240, 255, 0.5)' }}>
+                        [{d.level}%]
                       </span>
                     </div>
-                    <div className="skill-track">
+                    <div style={{ height: '6px', background: 'var(--surface-hi)', borderRadius: '2px', overflow: 'hidden', position: 'relative', border: '1px solid var(--border)' }}>
                       <div
-                        className="skill-fill"
-                        style={{ width: visible ? `${d.level}%` : '0%', transitionDelay: `${i * 0.12}s` }}
+                        style={{ 
+                          height: '100%', 
+                          background: 'var(--cyan)', 
+                          boxShadow: '0 0 10px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.4)',
+                          width: visible ? `${d.level}%` : '0%', 
+                          transition: 'width 1.5s cubic-bezier(0.22, 1, 0.36, 1)',
+                          transitionDelay: `${i * 0.15}s` 
+                        }}
                       />
                     </div>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {d.modules.map((m) => <Chip key={m} label={m} />)}
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {d.modules.map((m) => (
+                        <span key={m} style={{ fontSize: '0.68rem', fontFamily: 'var(--font-mono)', color: 'var(--cyan)', padding: '2px 8px', border: '1px dashed var(--border-hover)', background: 'var(--cyan-soft)' }}>
+                          {m}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 ))}
@@ -44,19 +63,20 @@ export function SkillsSection() {
             </IdeWindow>
           </FadeUp>
 
-          <div className="space-y-4">
+          {/* Right Column */}
+          <div className="space-y-8">
             <FadeUp delay={0.1}>
-              <IdeWindow filename="dependency-graph.ts">
-                <div className="code-block text-xs">
+              <IdeWindow filename="sys.dependencies">
+                <div className="code-block text-[0.75rem] p-1">
                   {dependencyGraph.map((line, i) => {
                     const [from, ...rest] = line.split(' -> ')
                     return (
-                      <div key={i}>
-                        <span className="tok-nm">{from}</span>
+                      <div key={i} className="mb-2">
+                        <span style={{ color: 'var(--purple)', fontWeight: 600 }}>{from}</span>
                         {rest.map((part, j) => (
                           <span key={j}>
-                            <span className="tok-op"> → </span>
-                            <span className={j === rest.length - 1 ? 'tok-str' : 'tok-nm'}>{part}</span>
+                            <span style={{ color: 'var(--cyan)', opacity: 0.6, margin: '0 6px' }}>─►</span>
+                            <span style={{ color: j === rest.length - 1 ? 'var(--cyan)' : 'var(--text)', textShadow: j === rest.length - 1 ? '0 0 8px rgba(0, 240, 255, 0.4)' : 'none' }}>{part}</span>
                           </span>
                         ))}
                       </div>
@@ -67,23 +87,24 @@ export function SkillsSection() {
             </FadeUp>
 
             <FadeUp delay={0.15}>
-              <IdeWindow filename="team-value.md">
-                <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', letterSpacing: '0.14em', textTransform: 'uppercase', fontFamily: 'var(--font-mono)', marginBottom: 12 }}>
-                  what teams get
-                </p>
-                <ul className="space-y-2.5">
-                  {[
-                    'Reusable components and cleaner project structure.',
-                    'Projects presented with stronger clarity for recruiters.',
-                    'Interfaces that feel modern without being noisy.',
-                    'A developer who cares about code quality + product.',
-                  ].map((txt) => (
-                    <li key={txt} className="flex gap-2 items-start" style={{ fontSize: '0.8125rem', color: 'var(--text-dim)', fontFamily: 'var(--font-mono)' }}>
-                      <span style={{ color: 'var(--cyan)', flexShrink: 0 }}>→</span>
-                      {txt}
-                    </li>
-                  ))}
-                </ul>
+              <IdeWindow filename="team_value.ts">
+                <div className="code-block text-[0.75rem] p-1">
+                  <span style={{ color: 'var(--purple)' }}>const</span> <span style={{ color: 'var(--text)' }}>team_value</span> <span style={{ color: 'var(--cyan)' }}>:</span> <span style={{ color: 'var(--text-muted)' }}>string[]</span> <span style={{ color: 'var(--text-muted)' }}>=</span> <span style={{ color: 'var(--cyan)' }}>[</span>
+                  <div className="pl-4 py-2 space-y-2">
+                    {[
+                      'Reusable components and cleaner project structure',
+                      'Projects presented with stronger clarity for recruiters',
+                      'Interfaces that feel modern without being noisy',
+                      'A developer who cares about code quality + product',
+                    ].map((txt, idx, arr) => (
+                      <div key={txt}>
+                        <span style={{ color: 'var(--text-dim)' }}>"{txt}"</span>
+                        {idx < arr.length - 1 && <span style={{ color: 'var(--text-muted)' }}>,</span>}
+                      </div>
+                    ))}
+                  </div>
+                  <span style={{ color: 'var(--cyan)' }}>]</span><span style={{ color: 'var(--text-muted)' }}>;</span>
+                </div>
               </IdeWindow>
             </FadeUp>
           </div>
