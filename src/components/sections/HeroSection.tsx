@@ -202,14 +202,13 @@ export function HeroSection({ onScrollDown }: { onScrollDown: () => void }) {
                   <span style={{ color: 'var(--cyan)', whiteSpace: 'nowrap', marginRight: '6px' }}>visitor@portfolio:~$</span>
                   
                   {/* Custom Input Display */}
-                  <div style={{ display: 'flex', alignItems: 'center', color: 'var(--text)' }}>
-                    {!inputVal && !isFocused ? (
-                      <span style={{ color: 'var(--text-muted)', opacity: 0.7 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', color: 'var(--text)', position: 'relative' }}>
+                    {!inputVal && (
+                      <span style={{ color: 'var(--text-muted)', opacity: 0.5, position: 'absolute', left: 0, pointerEvents: 'none', whiteSpace: 'nowrap' }}>
                         Type 'help' to see available commands...
                       </span>
-                    ) : (
-                      <span style={{ whiteSpace: 'pre' }}>{inputVal}</span>
                     )}
+                    <span style={{ whiteSpace: 'pre' }}>{inputVal}</span>
                     {/* Retro Block Cursor */}
                     {isFocused && (
                       <span style={{
