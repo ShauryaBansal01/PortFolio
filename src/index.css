@@ -39,6 +39,25 @@
   --green: #00f0ff;
 }
 
+/* ─── Themes ───────────────────────────────────────── */
+body.theme-matrix {
+  --cyan: #00ff41;
+  --cyan-dim: #008f11;
+  --cyan-soft: rgba(0, 255, 65, 0.12);
+  --cyan-glow: 0 0 16px rgba(0, 255, 65, 0.35);
+  --purple: #003b00;
+}
+
+body.theme-cyberpunk {
+  --cyan: #ff2a75;
+  --cyan-dim: #b8004b;
+  --cyan-soft: rgba(255, 42, 117, 0.12);
+  --cyan-glow: 0 0 16px rgba(255, 42, 117, 0.4);
+  --purple: #00f0ff;
+  --bg: #0b001a;
+  --surface: #140524;
+}
+
 /* ─── Glitch Animation ───────────────────────────── */
 @keyframes glitch {
   0% {
@@ -142,6 +161,25 @@ body::after {
   min-height: 100vh;
   position: relative;
   z-index: 1;
+}
+
+/* ─── CRT Scanlines & Flicker ────────────────────────── */
+.crt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  pointer-events: none;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  background-size: 100% 3px, 3px 100%;
+  animation: crt-flicker 0.15s infinite;
+  mix-blend-mode: overlay;
+  opacity: 0.15;
+}
+
+@keyframes crt-flicker {
+  0% { opacity: 0.15; }
+  50% { opacity: 0.17; }
+  100% { opacity: 0.15; }
 }
 
 /* ─── Scrollbar ──────────────────────────────────────── */

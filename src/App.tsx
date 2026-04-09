@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { contactLinks } from './data/portfolio'
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
@@ -9,10 +10,12 @@ import { ProjectsSection } from './components/sections/ProjectsSection'
 import { ExperienceSection } from './components/sections/ExperienceSection'
 import { SkillsSection } from './components/sections/SkillsSection'
 import { ContactSection } from './components/sections/ContactSection'
+import { BootSequence } from './components/ui/BootSequence'
 
 type Section = 'hero' | 'about' | 'projects' | 'experience' | 'skills' | 'contact'
 
 export default function App() {
+  const [hasBooted, setHasBooted] = useState(false)
   const [active, setActive] = useState<Section>('hero')
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [copiedEmail, setCopiedEmail] = useState(false)
@@ -58,26 +61,42 @@ export default function App() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
-      <Navbar
-        active={active}
-        onSearchClick={() => setPaletteOpen(true)}
-      />
+    <>
+      <div className="crt-overlay" />
+      <AnimatePresence>
+        {!hasBooted && (
+          <motion.div
+            key="boot-sequence"
+            exit={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            style={{ position: 'fixed', inset: 0, zIndex: 99999 }}
+          >
+            <BootSequence onComplete={() => setHasBooted(true)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      <HeroSection onScrollDown={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} />
-      <div className="section-divider" />
-      <AboutSection />
-      <div className="section-divider" />
-      <ProjectsSection />
-      <div className="section-divider" />
-      <ExperienceSection />
-      <div className="section-divider" />
-      <SkillsSection />
-      <div className="section-divider" />
-      <ContactSection copiedEmail={copiedEmail} onCopyEmail={() => void copyEmail()} />
-      <Footer />
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', opacity: hasBooted ? 1 : 0, transition: 'opacity 1s ease', pointerEvents: hasBooted ? 'auto' : 'none' }}>
+        <Navbar
+          active={active}
+          onSearchClick={() => setPaletteOpen(true)}
+        />
 
-      <CommandPalette isOpen={paletteOpen} onClose={() => setPaletteOpen(false)} />
-    </div>
+        <HeroSection onScrollDown={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })} />
+        <div className="section-divider" />
+        <AboutSection />
+        <div className="section-divider" />
+        <ProjectsSection />
+        <div className="section-divider" />
+        <ExperienceSection />
+        <div className="section-divider" />
+        <SkillsSection />
+        <div className="section-divider" />
+        <ContactSection copiedEmail={copiedEmail} onCopyEmail={() => void copyEmail()} />
+        <Footer />
+
+        <CommandPalette isOpen={paletteOpen} onClose={() => setPaletteOpen(false)} />
+      </div>
+    </>
   )
 }
